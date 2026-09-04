@@ -1,0 +1,112 @@
+//parte 1
+
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main(){
+    stack<int> pilha;
+    pilha.push(1);
+    pilha.push(2);
+    pilha.push(3);
+    pilha.push(4);
+    pilha.push(5);
+
+    cout << "Primeiro elemento: ";
+    cout << pilha.top() << endl;
+    
+    cout << "Quantidade de Elementos: ";
+    cout << pilha.size() << endl;
+    
+    cout << pilha.top() << " desempilhado!" << endl;
+    pilha.pop();
+    
+    cout << "Novo elemento no topo: ";
+    cout << pilha.top() << endl;
+
+    return 0;
+}
+
+
+
+// parte 2
+
+#include <iostream>
+using namespace std;
+
+const int TAM = 5;
+int pilha[TAM + 1];
+int topo = 0;
+
+bool estaVazia() {
+    return topo == 0;
+}
+
+bool estaCheia() {
+    return topo == TAM;
+}
+
+void empilhar(int valor) {
+    if (estaCheia()) {
+        cout << "Pilha Lotada" << endl;
+        return;
+    }
+    topo++;
+    pilha[topo] = valor;
+    cout << valor << " totalmente empilhada!" << endl;
+}
+
+void desempilhar() {
+    if (estaVazia()) {
+        cout << "Nada na Pilha" << endl;
+        return;
+    }
+    cout << pilha[topo] << " Desempilhando" << endl;
+    topo--;
+}
+
+void consultarTopo() {
+    if (estaVazia()) {
+        cout << "Nada na Pilha" << endl;
+        return;
+    }
+    cout << "Topo: " << pilha[topo] << endl;
+}
+
+void exibirPilha() {
+    if (estaVazia()) {
+        cout << "Nada na Pilha" << endl;
+        return;
+    }
+    for (int i = topo; i >= 1; i--) {
+        cout << pilha[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    desempilhar();
+
+    empilhar(10);
+    empilhar(20);
+    empilhar(30);
+    empilhar(40);
+    empilhar(50);
+    empilhar(60);
+
+    consultarTopo();
+    exibirPilha();
+
+    desempilhar();
+    desempilhar();
+    desempilhar();
+    desempilhar();
+    desempilhar();
+    desempilhar();
+
+    return 0;
+}
+
+
+// parte 3
+
