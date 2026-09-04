@@ -110,3 +110,40 @@ int main() {
 
 // parte 3
 
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main() { 
+    stack<char> pilha;
+
+    
+    pilha.push('D');
+    pilha.push('R');
+    pilha.push('A');
+    pilha.push('C');
+    pilha.push('U');
+    pilha.push('L');
+    pilha.push('A');
+
+    cout << "Palavara Invertida: ";
+    
+    while (!pilha.empty()){
+        cout << pilha.top();
+        
+        
+        pilha.pop();  
+    }
+
+    cout << endl;
+
+    return 0;
+
+}
+
+
+
+// parte 4
+
+
+
