@@ -145,5 +145,174 @@ int main() {
 
 // parte 4
 
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string palavra;
+    stack<char> pilha;
+
+    cout << "Digite uma palavra aleatoria: ";
+    cin >> palavra;
+
+    for (int i = 0; i < palavra.length(); i++) {
+        pilha.push(palavra[i]);
+    }
+
+    string invertida = "";
+
+    while (!pilha.empty()) {
+        invertida += pilha.top();
+        pilha.pop();
+    }
+
+    if (palavra == invertida) {
+        cout << "E palindromo." << endl;
+    } else {
+        cout << "Nao e palindromo." << endl;
+    }
+
+    return 0;
+}
+
+
+// parte 5
+
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+int main() {
+    stack<string> pilha;
+    int opcao;
+    string acao;
+
+    do {
+        cout << "\n1 - Registrar acao" << endl;
+        cout << "2 - Desfazer ultima acao" << endl;
+        cout << "3 - Mostrar ultima acao" << endl;
+        cout << "4 - Mostrar historico" << endl;
+        cout << "0 - Sair" << endl;
+        cout << "Escolha: ";
+        cin >> opcao;
+
+        if (opcao == 1) {
+            cout << "Digite a acao: ";
+            cin.ignore();
+            getline(cin, acao);
+
+            pilha.push(acao);
+
+            cout << "Acao registrada." << endl;
+        }
+
+        else if (opcao == 2) {
+            if (pilha.empty()) {
+                cout << "Nao existem acoes para desfazer." << endl;
+            } else {
+                cout << "Desfeito: " << pilha.top() << endl;
+                pilha.pop();
+            }
+        }
+
+        else if (opcao == 3) {
+            if (pilha.empty()) {
+                cout << "Nao existem acoes." << endl;
+            } else {
+                cout << "Ultima acao: " << pilha.top() << endl;
+            }
+        }
+
+        else if (opcao == 4) {
+            if (pilha.empty()) {
+                cout << "Historico vazio." << endl;
+            } else {
+                stack<string> copia = pilha;
+
+                cout << "Historico:" << endl;
+
+                while (!copia.empty()) {
+                    cout << copia.top() << endl;
+                    copia.pop();
+                }
+            }
+        }
+
+    } while (opcao != 0);
+
+    return 0;
+}
+
+
+
+//parte final
+
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string expressao;
+    stack<char> pilha;
+    bool valido = true;
+
+    cout << "Digite a expressao: ";
+    getline(cin, expressao);
+
+    for (int i = 0; i < expressao.length(); i++) {
+        char c = expressao[i];
+
+        if (c == '(' || c == '[' || c == '{') {
+            pilha.push(c);
+        }
+
+        else if (c == ')' || c == ']' || c == '}') {
+            if (pilha.empty()) {
+                valido = false;
+                break;
+            }
+
+            char topo = pilha.top();
+
+            if (c == ')' && topo != '(') {
+                valido = false;
+                break;
+            }
+
+            if (c == ']' && topo != '[') {
+                valido = false;
+                break;
+            }
+
+            if (c == '}' && topo != '{') {
+                valido = false;
+                break;
+            }
+
+            pilha.pop();
+        }
+    }
+
+    if (!pilha.empty()) {
+        valido = false;
+    }
+
+    if (valido) {
+        cout << "Expressao valida." << endl;
+    } else {
+        cout << "Expressao invalida." << endl;
+    }
+
+    return 0;
+}
+
+
 
 
