@@ -1,0 +1,485 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// questão 1
+
+struct Aluno {
+    int matricula;
+    string nome;
+    double nota;
+};
+
+int main() {
+    Aluno aluno;
+
+    cin >> aluno.matricula;
+    cin.ignore();
+    getline(cin, aluno.nome);
+    cin >> aluno.nota;
+
+    cout << "Matricula: " << aluno.matricula << "\n";
+    cout << "Nome: " << aluno.nome << "\n";
+    cout << "Nota: " << aluno.nota << "\n";
+
+    if (aluno.nota >= 6.0) {
+        cout << "Situacao: Aprovado\n";
+    } else {
+        cout << "Situacao: Reprovado\n";
+    }
+
+    return 0;
+}
+
+
+// questão 2
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct produto {
+    string nome;
+    double preco;
+    int codigo;
+};
+
+// A função deve ser declarada fora da main
+void Ajustar(produto *p, double percentual) {
+    if (p != nullptr) {
+        p->preco += p->preco * (percentual / 100.0);
+    }
+}
+
+int main() {
+
+    produto meuProduto = {"Caderno", 10.0, 101};
+
+    cout << "Preco antigo: R$ " << meuProduto.preco << endl;
+
+    Ajustar(&meuProduto, 10.0);
+
+    cout << "Novo preco (com +10%): R$ " << meuProduto.preco << endl;
+
+    return 0;
+}
+
+
+// questão 3
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct livro {
+    string titulo;
+    string autor;
+    int ano;
+};
+
+int main() {
+    livro* meuLivro = new livro;
+
+    getline(cin, meuLivro->titulo);
+    getline(cin, meuLivro->autor);
+    cin >> meuLivro->ano;
+
+    cout << "Titulo: " << meuLivro->titulo << "\n";
+    cout << "Autor: " << meuLivro->autor << "\n";
+    cout << "Ano: " << meuLivro->ano << "\n";
+
+    delete meuLivro;
+    meuLivro = nullptr;
+
+    return 0;
+}
+
+
+// questão 4
+
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+
+    int* p = new int[n];
+    long long soma = 0;
+    int menor = 0;
+    int maior = 0;
+
+    for (int i = 0; i < n; ++i) {
+        cin >> *(p + i);
+        soma += *(p + i);
+        if (i == 0) {
+            menor = *(p + i);
+            maior = *(p + i);
+        } else {
+            if (*(p + i) < menor) menor = *(p + i);
+            if (*(p + i) > maior) maior = *(p + i);
+        }
+    }
+
+    for (int i = 0; i < n; ++i) {
+        cout << *(p + i) << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+
+    double media = static_cast<double>(soma) / n;
+
+cout << "soma " << soma << "\n";
+cout << "média " << fixed << setprecision(2) << media << "\n";
+cout << "menor " << menor << "\n";
+cout << "maior " << maior << "\n";
+
+delete[] p;
+return 0;
+}
+
+
+// questão 5
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+struct Aluno {
+    int matricula;
+    string nome;
+    double nota;
+};
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+
+    Aluno* alunos = new Aluno[n];
+    double soma = 0;
+    int aprovados = 0;
+
+    for (int i = 0; i < n; ++i) {
+        bool repetida;
+        do {
+            repetida = false;
+            cin >> alunos[i].matricula >> alunos[i].nome >> alunos[i].nota;
+            for (int j = 0; j < i; ++j) {
+                if (alunos[j].matricula == alunos[i].matricula) {
+                    repetida = true;
+                    break;
+                }
+            }
+        } while (repetida);
+soma += alunos[i].nota;
+if (alunos[i].nota >= 6.0) {
+    aprovados++;
+}
+}
+
+for (int i = 0; i < n; ++i) {
+    cout << alunos[i].matricula << " " << alunos[i].nome << " " << alunos[i].nota << "\n";
+}
+
+double media = soma / n;
+cout << fixed << setprecision(2);
+cout << "média " << media << "\n";
+cout << "aprovados " << aprovados << "\n";
+
+delete[] alunos;
+return 0;
+}
+
+
+
+// questão 6
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+struct Produto {
+    int codigo;
+    string nome;
+    double preco;
+};
+
+Produto* buscar(Produto* produtos, int n, int codigo) {
+    for (int i = 0; i < n; ++i) {
+        if ((produtos + i)->codigo == codigo) {
+            return (produtos + i);
+        }
+    }
+    return nullptr;
+}
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+
+    Produto* produtos = new Produto[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> produtos[i].codigo >> produtos[i].nome >> produtos[i].preco;
+    }
+
+    int codigoBusca;
+    cin >> codigoBusca;
+
+
+// questão 7
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+struct Turma {
+    string nome;
+    int quantidade;
+    double* notas;
+};
+
+double calcularMedia(const Turma* t) {
+    double soma = 0;
+    for (int i = 0; i < t->quantidade; ++i) {
+        soma += t->notas[i];
+    }
+    return soma / t->quantidade;
+}
+
+int main() {
+    Turma* t = new Turma;
+    if (!(cin >> t->nome >> t->quantidade)) {
+        delete t;
+        return 0;
+    }
+
+    t->notas = new double[t->quantidade];
+    for (int i = 0; i < t->quantidade; ++i) {
+        cin >> t->notas[i];
+    }
+cout << fixed << setprecision(2);
+cout << t->nome << "\n";
+for (int i = 0; i < t->quantidade; ++i) {
+    cout << t->notas[i] << (i == t->quantidade - 1 ? "" : " ");
+}
+cout << "\n";
+cout << calcularMedia(t) << "\n";
+
+delete[] t->notas;
+delete t;
+return 0;
+}
+
+
+
+// questão 8 
+
+#include <iostream>
+
+using namespace std;
+
+struct Celula {
+    int valor;
+};
+
+int main() {
+    int linhas, colunas;
+    if (!(cin >> linhas >> colunas)) return 0;
+
+    Celula** matriz = new Celula*[linhas];
+    for (int i = 0; i < linhas; ++i) {
+        matriz[i] = new Celula[colunas];
+    }
+
+    for (int i = 0; i < linhas; ++i) {
+        for (int j = 0; j < colunas; ++j) {
+            cin >> matriz[i][j].valor;
+        }
+    }
+
+    for (int i = 0; i < linhas; ++i) {
+        int soma = 0;
+        for (int j = 0; j < colunas; ++j) {
+            cout << matriz[i][j].valor << (j == colunas - 1 ? "" : " ");
+            soma += matriz[i][j].valor;
+        }
+        cout << " Soma: " << soma << "\n";
+    }
+
+for (int i = 0; i < linhas; ++i){
+delete[] matriz;
+}
+delete[] matriz;
+
+return 0;
+}
+
+// questão 9
+
+#include <iostream>
+
+using namespace std;
+
+struct No {
+    int valor;
+    No* proximo;
+};
+
+int main() {
+    No* inicio = nullptr;
+    int opcao;
+
+    while (cin >> opcao) {
+        if (opcao == 0) {
+            break;
+        } else if (opcao == 1) {
+            int val;
+            cin >> val;
+            No* novo = new No;
+            novo->valor = val;
+            novo->proximo = inicio;
+            inicio = novo;
+            cout << "Inserido\n";
+        } else if (opcao == 2) {
+            if (inicio == nullptr) {
+                cout << "Lista vazia\n";
+            } else {
+                No* atual = inicio;
+                bool primeiro = true;
+                while (atual != nullptr) {
+                    if (!primeiro) cout << " ";
+bool primeiro = true;
+while (atual != nullptr) {
+    if (!primeiro) cout << " ";
+    cout << atual->valor;
+    primeiro = false;
+    atual = atual->proximo;
+}
+cout << "\n";
+}
+} else if (opcao == 3) {
+    int val;
+    cin >> val;
+    if (inicio == nullptr) {
+        cout << "Valor nao encontrado\n";
+    } else if (inicio->valor == val) {
+        No* temp = inicio;
+        inicio = inicio->proximo;
+        delete temp;
+        cout << "Removido\n";
+    } else {
+        No* atual = inicio;
+        while (atual->proximo != nullptr && atual->proximo->valor != val) {
+            atual = atual->proximo;
+        }
+        if (atual->proximo == nullptr) {
+            cout << "Valor nao encontrado\n";
+        } else {
+            No* temp = atual->proximo;
+            atual->proximo = temp->proximo;
+            delete temp;
+            cout << "Removido\n";
+        }
+    }
+}
+
+while (atual->proximo != nullptr && atual->proximo->valor != val) {
+    atual = atual->proximo;
+}
+if (atual->proximo == nullptr) {
+    cout << "Valor nao encontrado\n";
+} else {
+    No* temp = atual->proximo;
+    atual->proximo = temp->proximo;
+    delete temp;
+    cout << "Removido\n";
+}
+}
+}
+
+while (inicio != nullptr) {
+    No* proximo = inicio->proximo;
+    delete inicio;
+    inicio = proximo;
+}
+
+return 0;
+}
+
+
+
+// questão 10
+
+#include <iostream>
+#include <string>
+
+
+
+using namespace std;
+
+struct Contato {
+    string nome;
+    string telefone;
+};
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+
+    Contato* v = new Contato[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> v[i].nome >> v[i].telefone;
+    }
+
+    Contato extra;
+    cin >> extra.nome >> extra.telefone;
+
+    int novo_tamanho = n + 1;
+    Contato* novo_v = new Contato[novo_tamanho];
+    for (int i = 0; i < n; ++i) {
+        novo_v[i] = v[i];
+    }
+    novo_v[n] = extra;
+
+    delete[] v;
+}
+
+Contato extra;
+cin >> extra.nome >> extra.telefone;
+
+int novo_tamanho = n + 1;
+Contato* novo_v = new Contato[novo_tamanho];
+for (int i = 0; i < n; ++i) {
+    novo_v[i] = v[i];
+}
+novo_v[n] = extra;
+
+delete[] v;
+v = novo_v;
+n = novo_tamanho;
+
+for (int i = 0; i < n; ++i) {
+    cout << v[i].nome << " " << v[i].telefone << "\n";
+}
+
+delete[] v;
+return 0;
+}
+
+
+
+
+
+
+
