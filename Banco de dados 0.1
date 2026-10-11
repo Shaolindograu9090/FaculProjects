@@ -1,0 +1,92 @@
+CREATE TABLE Escritorio_ad (
+    CNPJ VARCHAR(20) PRIMARY KEY,
+    Nome_Cidade VARCHAR(100),
+    Nome_Rua VARCHAR(100)
+);
+
+CREATE TABLE Advogado (
+    OAB VARCHAR(20) PRIMARY KEY,
+    CPF VARCHAR(14) NOT NULL UNIQUE,
+    Telefone VARCHAR(20),
+    CNPJ_Escritorio VARCHAR(20),
+    FOREIGN KEY (CNPJ_Escritorio) REFERENCES Escritorio_ad(CNPJ)
+);
+
+CREATE TABLE Cliente (
+    CPF VARCHAR(14) PRIMARY KEY,
+    Nome_cl VARCHAR(100) NOT NULL,
+    Telefone VARCHAR(20)
+);
+
+CREATE TABLE Juiz (
+    Vara_Judicial VARCHAR(50) PRIMARY KEY,
+    Nome VARCHAR(100)
+);
+
+CREATE TABLE Processo (
+    Cod_Processo INT PRIMARY KEY,
+    Autos_processo VARCHAR(255),
+    Tipo_Processo VARCHAR(50),
+    CPF_Cliente VARCHAR(14) NOT NULL,
+    Vara_Juiz_Julgador VARCHAR(50) NOT NULL,
+    FOREIGN KEY (CPF_Cliente) REFERENCES Cliente(CPF),
+    FOREIGN KEY (Vara_Juiz_Julgador) REFERENCES Juiz(Vara_Judicial)
+);
+
+CREATE TABLE Sentenca (
+    ID_Processo INT PRIMARY KEY,
+    Result_merito VARCHAR(255),
+    Juiz_Prolador_Nome VARCHAR(100),
+    Vara_Juiz_Autor VARCHAR(50),
+    FOREIGN KEY (ID_Processo) REFERENCES Processo(Cod_Processo),
+    FOREIGN KEY (Vara_Juiz_Autor) REFERENCES Juiz(Vara_Judicial)
+);
+
+CREATE TABLE Defende (
+    OAB_Advogado VARCHAR(20),
+    CPF_Cliente VARCHAR(14),
+    PRIMARY KEY (OAB_Advogado, CPF_Cliente),
+    FOREIGN KEY (OAB_Advogado) REFERENCES Advogado(OAB),
+    FOREIGN KEY (CPF_Cliente) REFERENCES Cliente(CPF)
+);
+
+
+INSERT INTO Escritorio_ad (CNPJ, Nome_Cidade, Nome_Rua) VALUES
+('01.234.567/0001-89', 'São Paulo', 'Av. Paulista, 1000'),
+('12.345.678/0001-90', 'Rio de Janeiro', 'Rua Primeiro de Março, 50'),
+('23.456.789/0001-01', 'Belo Horizonte', 'Praça da Liberdade, 30');
+
+
+INSERT INTO Advogado (OAB, CPF, Telefone, CNPJ_Escritorio) VALUES
+('SP123456', '123.456.789-00', '(11) 98877-6655', '01.234.567/0001-89'),
+('RJ789012', '987.654.321-11', '(21) 97766-5544', '12.345.678/0001-90'),
+('MG345678', '456.789.012-22', '(31) 96655-4433', '23.456.789/0001-01');
+
+INSERT INTO Cliente (CPF, Nome_cl, Telefone) VALUES
+('111.222.333-44', 'Ana Silva', '(11) 98765-4321'),
+('555.666.777-88', 'Bruno Costa', '(21) 91234-5678'),
+('999.000.111-22', 'Carla Mendes', '(31) 99887-7665');
+
+
+INSERT INTO Juiz (Vara_Judicial, Nome) VALUES
+('1ª Cível SP', 'Dr. Roberto Lima'),
+('2ª Criminal RJ', 'Dra. Helena Soares'),
+('3ª Família MG', 'Dr. Paulo Ferreira');
+
+
+INSERT INTO Processo (Cod_Processo, Autos_processo, Tipo_Processo, CPF_Cliente, Vara_Juiz_Julgador) VALUES
+(1001, 'Ação de Divórcio Litigioso', 'Família', '111.222.333-44', '3ª Família MG'),
+(1002, 'Cobrança de Dívida', 'Cível', '555.666.777-88', '1ª Cível SP'),
+(1003, 'Homicídio Qualificado', 'Criminal', '999.000.111-22', '2ª Criminal RJ');
+
+
+INSERT INTO Sentenca (ID_Processo, Result_merito, Juiz_Prolador_Nome, Vara_Juiz_Autor) VALUES
+(1001, 'Deferido o divórcio, partilha de bens.', 'Dr. Paulo Ferreira', '3ª Família MG'),
+(1002, 'Procedente a cobrança, réu condenado.', 'Dr. Roberto Lima', '1ª Cível SP'),
+(1003, 'Réu absolvido por falta de provas.', 'Dra. Helena Soares', '2ª Criminal RJ');
+
+
+INSERT INTO Defende (OAB_Advogado, CPF_Cliente) VALUES
+('SP123456', '111.222.333-44'),
+('RJ789012', '555.666.777-88'),
+('SP123456', '999.000.111-22');
