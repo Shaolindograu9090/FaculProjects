@@ -1,0 +1,32 @@
+import sqlite3
+
+# Função para criar e popular o banco
+def configurar_banco():
+ with sqlite3.connect("meu_banco.db") as conexao:
+ cursor = conexao.cursor()
+
+ # Criar tabelas
+ cursor.execute('CREATE TABLE IF NOT EXISTS Marca (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT)')
+ cursor.execute('''CREATE TABLE IF NOT EXISTS Veiculo (
+ placa TEXT PRIMARY KEY, cor TEXT, ano INTEGER, marca INTEGER,
+ FOREIGN KEY (marca) REFERENCES Marca (id))''')
+
+ # Limpar dados antigos para evitar erro de duplicidade ao re-executar
+ cursor.execute('DELETE FROM Veiculo')
+ cursor.execute('DELETE FROM Marca')
+
+ # Inserir dados
+ marcas = [('Toyota',), ('Honda',), ('Ford',)]
+ cursor.executemany('INSERT INTO Marca (nome) VALUES (?)', marcas)
+
+ veiculos = [
+ ('ABC-1234', 'Azul', 2010, 1),
+ ('XYZ-9876', 'Preto', 2015, 2),
+ ('OLD-0000', 'Cinza', 1995, 3) # Não deve aparecer no seu filtro > 2002
+ ]
+ cursor.executemany('INSERT INTO Veiculo VALUES (?, ?, ?, ?)', veiculos)
+
+ conexao.commit()
+ print("Banco 'meu_banco.db' criado e populado!")
+
+configurar_banco()
