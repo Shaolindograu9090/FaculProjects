@@ -1,0 +1,309 @@
+//Questão 1
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Node {
+    int valor;
+    Node* proximo; 
+};
+
+int main() {
+    Node* primeiro = new Node;
+    Node* segundo = new Node;
+    Node* terceiro = new Node;
+
+    primeiro->valor = 10;
+    segundo->valor = 20;
+    terceiro->valor = 30; 
+
+    primeiro->proximo = segundo;
+    segundo->proximo = terceiro;
+    terceiro->proximo = nullptr;
+
+    Node* atual = primeiro;
+    while (atual != nullptr) {
+        cout << atual->valor << "->";
+        atual = atual->proximo;
+    }
+    cout << "NULL" << endl;
+
+
+    delete primeiro;
+    delete segundo;
+    delete terceiro;
+
+std::cout << "Agora a lista está vazia " << std::endl;
+
+    return 0;
+}
+
+
+
+//Questão 2
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Node {
+    int valor;
+    Node* proximo;
+};
+
+void inserirFim(Node*& inicio, int valor) {
+    Node* novoNode = new Node();
+    novoNode->valor = valor;
+    novoNode->proximo = nullptr;
+    
+    if (inicio == nullptr) {
+        inicio = novoNode;
+    } else {
+        Node* atual = inicio;
+        while (atual->proximo != nullptr) {
+            atual = atual->proximo;
+        }
+        atual->proximo = novoNode;
+    }
+}
+
+
+//Questão 3
+
+#include <iostream>
+
+struct No {
+    int valor;
+    No* prox;
+};
+
+void inserirInicio(No*& inicio, int valor) {
+    No* novo = new No();
+    novo->valor = valor;
+    novo->prox = inicio;
+    inicio = novo;
+}
+
+void exibir(No* inicio) {
+    No* atual = inicio;
+    while (atual != nullptr) {
+        std::cout << atual->valor << " ";
+        atual = atual->prox;
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    No* inicio = nullptr;
+
+    inserirInicio(inicio, 20);
+    exibir(inicio); 
+
+    inserirInicio(inicio, 10);
+    exibir(inicio); 
+
+    inserirInicio(inicio, 5);
+    exibir(inicio); 
+
+    return 0;
+}
+
+
+
+
+//Questão 4
+
+
+#include <iostream>
+
+using namespace std;
+
+struct No {
+    int dado;
+    No* prox;
+};
+
+void inserirFim(No*& inicio, int valor) {
+    No* novo = new No();
+    novo->dado = valor;
+    novo->prox = nullptr;
+    if (inicio == nullptr) {
+        inicio = novo;
+    } else {
+        No* atual = inicio;
+        while (atual->prox != nullptr) {
+            atual = atual->prox;
+        }
+        atual->prox = novo;
+    }
+}
+
+No* buscar(No* inicio, int alvo) {
+    No* atual = inicio;
+    while (atual != nullptr) {
+        if (atual->dado == alvo) {
+            return atual;
+        }
+        atual = atual->prox;
+    }
+    return nullptr;
+}
+
+bool remover(No*& inicio, int alvo) {
+    if (inicio == nullptr) {
+        return false;
+    }
+    if (inicio->dado == alvo) {
+        No* temp = inicio;
+        inicio = inicio->prox;
+        delete temp;
+        return true;
+    }
+    No* atual = inicio;
+    while (atual->prox != nullptr && atual->prox->dado != alvo) {
+        atual = atual->prox;
+    }
+    if (atual->prox != nullptr) {
+        No* temp = atual->prox;
+        atual->prox = temp->prox;
+        delete temp;
+        return true;
+    }
+    return false;
+}
+
+void liberarLista(No*& inicio) {
+    No* atual = inicio;
+    while (atual != nullptr) {
+        No* temp = atual;
+        atual = atual->prox;
+        delete temp;
+    }
+    inicio = nullptr;
+}
+
+int main() {
+    No* inicio = nullptr;
+
+    No* resVazia = buscar(inicio, 3);
+    if (resVazia != nullptr) {
+        cout << "Encontrado\n";
+    } else {
+        cout << "Nao encontrado na lista vazia\n";
+    }
+
+    inserirFim(inicio, 3);
+    inserirFim(inicio, 6);
+    inserirFim(inicio, 3);
+    inserirFim(inicio, 9);
+
+    No* res3 = buscar(inicio, 3);
+    if (res3 != nullptr) {
+        cout << "Valor 3 encontrado. E o primeiro no? " << (res3 == inicio ? "Sim" : "Nao") << "\n";
+    }
+
+    No* res9 = buscar(inicio, 9);
+    if (res9 != nullptr) {
+        cout << "Valor 9 encontrado.\n";
+    } else {
+        cout << "Valor 9 nao encontrado.\n";
+    }
+
+    No* res7 = buscar(inicio, 7);
+    if (res7 != nullptr) {
+        cout << "Valor 7 encontrado.\n";
+    } else {
+        cout << "Valor 7 nao encontrado.\n";
+    }
+
+    remover(inicio, 3);
+    remover(inicio, 9);
+
+    liberarLista(inicio);
+
+    return 0;
+}
+
+
+
+
+//Questão 5 
+
+#include <iostream>
+
+using namespace std;
+
+struct No {
+    int dado;
+    No* prox;
+};
+
+void inserirFim(No*& inicio, int valor) {
+    No* novo = new No();
+    novo->dado = valor;
+    novo->prox = nullptr;
+    if (inicio == nullptr) {
+        inicio = novo;
+    } else {
+        No* atual = inicio;
+        while (atual->prox != nullptr) {
+            atual = atual->prox;
+        }
+        atual->prox = novo;
+    }
+}
+
+bool remover(No*& inicio, int alvo) {
+    if (inicio == nullptr) {
+        return false;
+    }
+    if (inicio->dado == alvo) {
+        No* temp = inicio;
+        inicio = inicio->prox;
+        delete temp;
+        return true;
+    }
+    No* atual = inicio;
+    while (atual->prox != nullptr && atual->prox->dado != alvo) {
+        atual = atual->prox;
+    }
+    if (atual->prox != nullptr) {
+        No* temp = atual->prox;
+        atual->prox = temp->prox;
+        delete temp;
+        return true;
+    }
+    return false;
+}
+
+void liberarLista(No*& inicio) {
+    No* atual = inicio;
+    while (atual != nullptr) {
+        No* temp = atual;
+        atual = atual->prox;
+        delete temp;
+    }
+    inicio = nullptr;
+}
+
+int main() {
+    No* inicio = nullptr;
+
+    inserirFim(inicio, 3);
+    inserirFim(inicio, 6);
+    inserirFim(inicio, 3);
+    inserirFim(inicio, 9);
+
+    remover(inicio, 3);
+    remover(inicio, 9);
+
+    liberarLista(inicio);
+
+    return 0;
+}
+
+
